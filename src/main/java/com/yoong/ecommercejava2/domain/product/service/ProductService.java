@@ -1,7 +1,7 @@
 package com.yoong.ecommercejava2.domain.product.service;
 
 import com.yoong.ecommercejava2.common.dto.DefaultResponse;
-import com.yoong.ecommercejava2.domain.backoffice.dto.ProductBackOfficeRequest;
+import com.yoong.ecommercejava2.domain.backoffice.dto.product_backoffice.ProductBackOfficeRequest;
 import com.yoong.ecommercejava2.domain.product.dto.CreateProductRequest;
 import com.yoong.ecommercejava2.domain.product.dto.ProductResponse;
 import com.yoong.ecommercejava2.domain.product.dto.UpdateProductRequest;
