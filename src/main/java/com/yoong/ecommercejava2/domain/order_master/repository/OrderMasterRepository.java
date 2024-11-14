@@ -1,6 +1,6 @@
 package com.yoong.ecommercejava2.domain.order_master.repository;
 
-import com.yoong.ecommercejava2.domain.coupon_to_buyer.entity.CouponToBuyer;
+import com.yoong.ecommercejava2.domain.coupon.entity.CouponToBuyer;
 import com.yoong.ecommercejava2.domain.order_master.entity.OrderMaster;
 
 import java.util.List;
