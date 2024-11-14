@@ -1,6 +1,8 @@
 package com.yoong.ecommercejava2.domain.buyer.service;
 
 import com.yoong.ecommercejava2.common.dto.DefaultResponse;
+import com.yoong.ecommercejava2.common.ex.exception.ModelNotFoundException;
+import com.yoong.ecommercejava2.common.ex.exception.PasswordException;
 import com.yoong.ecommercejava2.domain.buyer.dto.BuyerResponse;
 import com.yoong.ecommercejava2.domain.buyer.dto.request.CreateBuyerRequest;
 import com.yoong.ecommercejava2.domain.buyer.dto.request.UpdateBuyerImageRequest;
@@ -33,7 +35,9 @@ public class BuyerService {
         Buyer buyer = buyerRepository.findById(id).orElse(null);
 
         if (buyer == null) {
-            throw new RuntimeException();
+            throw new ModelNotFoundException(
+                    404, "존재하지 않는 구매자 입니다"
+            );
         }
 
         return BuyerResponse.from(buyer);
@@ -42,24 +46,53 @@ public class BuyerService {
     @Transactional
     public DefaultResponse changePassword(UpdateBuyerPasswordRequest updateBuyerPasswordRequest, Long id) {
 
-        if(!updateBuyerPasswordRequest.newPassword().equals(updateBuyerPasswordRequest.retryPassword())) throw new RuntimeException("비밀번호가 일치 하지 않습니다 다시 시도 해주세요");
+        if(!updateBuyerPasswordRequest.newPassword().equals(updateBuyerPasswordRequest.retryPassword())) throw new PasswordException(401, "비밀번호가 일치 하지 않습니다 다시 시도 해주세요");
 
         Buyer buyer = buyerRepository.findById(id).orElse(null);
 
-        if (buyer == null) throw new RuntimeException("존재하지 않는 구매자 입니다");
+        if (buyer == null)  {
+            throw new ModelNotFoundException(
+                    404, "존재하지 않는 구매자 입니다"
+            );
+        }
+
 
         String newPassword = passwordConfig.validPassword(buyer.getPassword(), updateBuyerPasswordRequest);
 
         buyer.passwordUpdate(newPassword);
 
-        return null;
+        return new DefaultResponse("패스워드 변경이 완료 되었습니다");
     }
 
+    @Transactional
     public DefaultResponse changeImage(UpdateBuyerImageRequest updateBuyerImageRequest, Long id) {
-        return null;
+
+        Buyer buyer = buyerRepository.findById(id).orElse(null);
+
+        if (buyer == null) {
+            throw new ModelNotFoundException(
+                    404, "존재하지 않는 구매자 입니다"
+            );
+        }
+
+        buyer.updateImage(updateBuyerImageRequest.imageUrl());
+
+        return new DefaultResponse("이미지 변경이 완료 되었습니다");
     }
 
+    @Transactional
     public DefaultResponse changeProfile(UpdateBuyerProfileRequest updateBuyerProfileRequest, Long id) {
-        return null;
+
+        Buyer buyer = buyerRepository.findById(id).orElse(null);
+
+        if (buyer == null) {
+            throw new ModelNotFoundException(
+                    404, "존재하지 않는 구매자 입니다"
+            );
+        }
+
+        buyer.updateProfile(updateBuyerProfileRequest);
+
+        return new DefaultResponse("프로필 변경이 완료 되었습니다");
     }
 }

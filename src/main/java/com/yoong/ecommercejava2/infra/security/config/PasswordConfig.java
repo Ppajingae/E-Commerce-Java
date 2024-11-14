@@ -1,5 +1,6 @@
 package com.yoong.ecommercejava2.infra.security.config;
 
+import com.yoong.ecommercejava2.common.ex.exception.PasswordException;
 import com.yoong.ecommercejava2.domain.buyer.dto.request.UpdateBuyerPasswordRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +17,8 @@ public class PasswordConfig {
 
     public String validPassword(String password, UpdateBuyerPasswordRequest request) {
 
-        if(encoder().matches(request.currentPassword(), password)) throw new RuntimeException("비밀번호가 일치하지 않습니다");
-        if(encoder().matches(request.newPassword(), password)) throw new RuntimeException("현재 비밀번호와 수정할 비밀번호가 같습니다");
+        if(!encoder().matches(request.currentPassword(), password)) throw new PasswordException(401, "비밀번호가 일치하지 않습니다");
+        if(encoder().matches(request.newPassword(), password)) throw new PasswordException(401, "현재 비밀번호와 수정할 비밀번호가 같습니다");
 
         return encoder().encode(request.newPassword());
     }

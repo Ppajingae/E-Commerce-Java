@@ -1,6 +1,7 @@
 package com.yoong.ecommercejava2.domain.buyer.entity;
 
 import com.yoong.ecommercejava2.domain.buyer.dto.request.CreateBuyerRequest;
+import com.yoong.ecommercejava2.domain.buyer.dto.request.UpdateBuyerProfileRequest;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,5 +50,16 @@ public class Buyer {
     public void passwordUpdate(String newPassword) {
 
         this.password = newPassword;
+    }
+
+    public void updateImage(String imageUrl) {
+
+        this.profileImage = imageUrl;
+    }
+
+    public void updateProfile(UpdateBuyerProfileRequest updateBuyerProfileRequest) {
+        this.nickname = updateBuyerProfileRequest.nickname();
+        this.phoneNumber = updateBuyerProfileRequest.phoneNumber();
+        this.address = updateBuyerProfileRequest.address();
     }
 }
