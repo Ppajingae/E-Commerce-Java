@@ -1,6 +1,7 @@
 package com.yoong.ecommercejava2.infra.security.Jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ClaimsBuilder;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -42,15 +43,6 @@ public class JwtPlugin {
 
     public String generateToken(String subject, String email, String role, Duration expirationPeriod){
 
-        Map<String, String> map = new HashMap<>();
-
-        Claims claims = Jwts.claims()
-                .add(
-                        map.put("role", role),
-                        map.put("email", email)
-                )
-                .build();
-
         Instant now = Instant.now();
         SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
 
@@ -59,7 +51,8 @@ public class JwtPlugin {
                 .issuer(issuer)
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(now.plus(expirationPeriod)))
-                .claims(claims)
+                .claim("role", role)
+                .claim("email", email)
                 .signWith(key)
                 .compact();
 

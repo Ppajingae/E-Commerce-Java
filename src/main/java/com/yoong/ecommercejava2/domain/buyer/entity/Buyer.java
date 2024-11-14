@@ -1,10 +1,13 @@
 package com.yoong.ecommercejava2.domain.buyer.entity;
 
+import com.yoong.ecommercejava2.domain.buyer.dto.request.CreateBuyerRequest;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Buyer {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,4 +36,18 @@ public class Buyer {
 
     @Column(name = "provider_id")
     private String providerId = null;
+
+    public Buyer(CreateBuyerRequest createBuyerRequest, String encodedPassword) {
+        this.nickname = createBuyerRequest.nickname();
+        this.email = createBuyerRequest.email();
+        this.profileImage = createBuyerRequest.profileImage();
+        this.phoneNumber = createBuyerRequest.phoneNumber();
+        this.address = createBuyerRequest.address();
+        this.password = encodedPassword;
+    }
+
+    public void passwordUpdate(String newPassword) {
+
+        this.password = newPassword;
+    }
 }
