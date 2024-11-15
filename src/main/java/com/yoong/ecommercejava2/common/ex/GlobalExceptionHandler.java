@@ -1,6 +1,7 @@
 package com.yoong.ecommercejava2.common.ex;
 
 import com.yoong.ecommercejava2.common.dto.ErrorResponse;
+import com.yoong.ecommercejava2.common.ex.exception.ConflictException;
 import com.yoong.ecommercejava2.common.ex.exception.ModelNotFoundException;
 import com.yoong.ecommercejava2.common.ex.exception.PasswordException;
 import org.springframework.http.HttpStatus;
@@ -21,5 +22,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> passwordException(PasswordException e){
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse(e.getErrorCode(), e.getMessage()));
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ErrorResponse> conflictException(ConflictException e){
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse(e.getErrorCode(), e.getMessage()));
     }
 }
