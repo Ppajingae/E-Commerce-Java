@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository {
 
@@ -15,8 +16,10 @@ public interface ProductRepository {
     Page<ProductSummaryDto> findByCategoryPaginated(Long categoryId, Pageable pageable);
     Page<ProductSummaryDto> searchByKeywordPaginated(String keyword, Pageable pageable);
     List<ProductSummaryDto> findAllById(Collection<Long> productIds);
-    Product findByIdOrNull(Long id);
+    Optional<Product> findById(Long id);
     List<Product> findAllByShopId(Long shopId);
     Page<Product> findPaginatedByShopId(Long shopId, Pageable pageable);
     List<ReviewProductDto> findAllByProductId(List<Long> productIdList);
+    Product saveAndFlush(Product product);
+    void delete(Product product);
 }

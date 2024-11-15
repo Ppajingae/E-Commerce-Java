@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -38,8 +39,8 @@ public class ProductRepositoryImpl implements ProductRepository{
     }
 
     @Override
-    public Product findByIdOrNull(Long id) {
-        return null;
+    public Optional<Product> findById(Long id) {
+        return productJpaRepository.findById(id);
     }
 
     @Override
@@ -55,5 +56,15 @@ public class ProductRepositoryImpl implements ProductRepository{
     @Override
     public List<ReviewProductDto> findAllByProductId(List<Long> productIdList) {
         return List.of();
+    }
+
+    @Override
+    public Product saveAndFlush(Product product) {
+        return productJpaRepository.saveAndFlush(product);
+    }
+
+    @Override
+    public void delete(Product product) {
+        productJpaRepository.delete(product);
     }
 }

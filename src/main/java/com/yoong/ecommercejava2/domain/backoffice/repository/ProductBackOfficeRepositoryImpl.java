@@ -1,6 +1,7 @@
 package com.yoong.ecommercejava2.domain.backoffice.repository;
 
 import com.yoong.ecommercejava2.domain.backoffice.dto.sales_statics.TotalSalesResponse;
+import com.yoong.ecommercejava2.domain.backoffice.entity.ProductBackOffice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -15,5 +16,10 @@ public class ProductBackOfficeRepositoryImpl implements ProductBackOfficeReposit
     @Override
     public TotalSalesResponse findTotalSalesStatisticsByProductIds(List<Long> productIds) {
         return null;
+    }
+
+    @Override
+    public ProductBackOffice save(ProductBackOffice productBackOffice) {
+        return productBackOfficeJpaRepository.save(productBackOffice);
     }
 }

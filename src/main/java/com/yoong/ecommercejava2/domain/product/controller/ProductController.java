@@ -5,11 +5,15 @@ import com.yoong.ecommercejava2.domain.product.dto.CreateRequest;
 import com.yoong.ecommercejava2.domain.product.dto.ProductResponse;
 import com.yoong.ecommercejava2.domain.product.dto.UpdateProductRequest;
 import com.yoong.ecommercejava2.domain.product.service.ProductService;
+import com.yoong.ecommercejava2.infra.security.Jwt.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,13 +23,16 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @PreAuthorize("hasRole('SELLER')")
     @PostMapping
     public ResponseEntity<DefaultResponse> createProduct(
-            @RequestBody CreateRequest createRequest
-    ){
+            @RequestBody CreateRequest createRequest,
+            @AuthenticationPrincipal UserPrincipal userPrincipal
+            ){
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(
                 createRequest.createProductRequest(),
-                createRequest.productBackOfficeRequest()
+                createRequest.productBackOfficeRequest(),
+                userPrincipal.getId()
         ));
     }
 

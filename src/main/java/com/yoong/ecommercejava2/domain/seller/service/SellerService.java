@@ -37,7 +37,7 @@ public class SellerService {
 
         if(shopRepository.existsBySellerId(sellerId)) throw new ConflictException(409, "이미 상점이 존재 합니다");
 
-        shopRepository.save(new Shop(createShopRequest));
+        shopRepository.save(new Shop(createShopRequest, sellerId));
 
         return new DefaultResponse("상점 생성이 완료 되었습니다");
     }

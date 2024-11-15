@@ -76,11 +76,10 @@ class SellerServiceTest : StringSpec({
         "test",
     )
 
-    val shop = Shop(createShopRequest)
+    val shop = Shop(createShopRequest, 1L)
 
     every { shopRepository.existsBySellerId(any()) } returns false
-    every { shopRepository.save(shop) } answers {
-        shop.id = 1L
+    every { shopRepository.save(any()) } answers {
         shop
     }
     every { shopRepository.findById(any()) } returns Optional.of(shop)

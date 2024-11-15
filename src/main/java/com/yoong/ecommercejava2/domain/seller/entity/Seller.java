@@ -38,5 +38,6 @@ public class Seller {
         this.nickname = createSellerRequest.nickname();
         this.password = encodedPassword;
         this.phoneNumber = createSellerRequest.phoneNumber();
+        this.profileImage = "test";
     }
 }

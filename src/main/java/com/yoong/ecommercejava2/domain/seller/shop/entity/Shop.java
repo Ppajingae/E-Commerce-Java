@@ -3,9 +3,10 @@ package com.yoong.ecommercejava2.domain.seller.shop.entity;
 import com.yoong.ecommercejava2.domain.seller.shop.dto.CreateShopRequest;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @Entity
 @Table
 @NoArgsConstructor
@@ -29,9 +30,10 @@ public class Shop {
     @Column(name = "seller_id")
     private Long sellerId;
 
-    public Shop(CreateShopRequest createShopRequest) {
+    public Shop(CreateShopRequest createShopRequest, Long sellerId) {
         this.description = createShopRequest.description();
         this.shopImage = createShopRequest.shopImage();
         this.name = createShopRequest.name();
+        this.sellerId = sellerId;
     }
 }
